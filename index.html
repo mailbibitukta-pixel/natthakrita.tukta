@@ -165,19 +165,19 @@
                             <h1 id="shop-title-text" class="text-2xl font-bold text-gray-800 flex items-center justify-center md:justify-start gap-2">
                                 Princess Credit
                             </h1>
-                            <p id="shop-desc-text" class="text-sm text-gray-600 mt-1 font-light">ร้านรับเติมเครดิต ราคาถูก ปลอดภัย 100%</p>
+                            <p id="shop-desc-text" class="text-sm text-gray-600 mt-1 font-light">กำลังโหลดข้อมูลร้าน...</p>
                             <div class="flex flex-col items-center md:items-start gap-1.5 mt-2 text-xs text-gray-500">
                                 <div id="display-hours-text" class="flex items-center gap-1.5">
-                                    <i class="fa-regular fa-clock text-[#C57D84]"></i> เปิดบริการทุกวัน 10:00 - 22:00 น.
+                                    <i class="fa-regular fa-clock text-[#C57D84]"></i> กำลังโหลด...
                                 </div>
                                 <div id="display-response-text" class="flex items-center gap-1.5">
-                                    <i class="fa-solid fa-bolt text-[#C57D84]"></i> ตอบกลับเร็ว ภายใน 5 นาที
+                                    <i class="fa-solid fa-bolt text-[#C57D84]"></i> กำลังโหลด...
                                 </div>
                                 <div id="display-social-text" class="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-1.5 font-medium text-[#C57D84]">
-                                    <a id="display-line-link" href="https://line.me/ti/p/~princesscredit" target="_blank" class="hover:opacity-80 transition flex items-center justify-center w-9 h-9 bg-white/80 rounded-full border border-[#FFE0E6] shadow-sm text-green-500 text-base" title="Line">
+                                    <a id="display-line-link" href="#" target="_blank" class="hover:opacity-80 transition flex items-center justify-center w-9 h-9 bg-white/80 rounded-full border border-[#FFE0E6] shadow-sm text-green-500 text-base" title="Line">
                                         <i class="fa-brands fa-line"></i>
                                     </a>
-                                    <a id="display-fb-link" href="https://facebook.com/princesscredit" target="_blank" class="hover:opacity-80 transition flex items-center justify-center w-9 h-9 bg-white/80 rounded-full border border-[#FFE0E6] shadow-sm text-blue-600 text-base" title="Facebook">
+                                    <a id="display-fb-link" href="#" target="_blank" class="hover:opacity-80 transition flex items-center justify-center w-9 h-9 bg-white/80 rounded-full border border-[#FFE0E6] shadow-sm text-blue-600 text-base" title="Facebook">
                                         <i class="fa-brands fa-facebook"></i>
                                     </a>
                                 </div>
@@ -214,7 +214,7 @@
                 </h3>
             </div>
             <div id="stories-container" class="flex items-center gap-4 overflow-x-auto pb-4 pt-1 px-2 scrollbar-none justify-start md:justify-center">
-                <div class="text-xs text-gray-400 py-4 w-full text-center">กำลังโหลดสตอรี่...</div>
+                <div class="text-xs text-gray-400 py-4 w-full text-center">กำลังเชื่อมต่อฐานข้อมูล Supabase...</div>
             </div>
         </section>
 
@@ -267,7 +267,7 @@
             </div>
 
             <div id="reviews-container" class="space-y-4">
-                <div class="bg-white p-6 rounded-3xl text-center text-xs text-gray-400 border border-[#FFE0E6]">กำลังโหลดรีวิว...</div>
+                <div class="bg-white p-6 rounded-3xl text-center text-xs text-gray-400 border border-[#FFE0E6]">กำลังซิงค์รีวิวจาก Supabase...</div>
             </div>
         </section>
 
@@ -509,13 +509,13 @@
         let shopConfig = {
             brand_title: 'Princess Credit',
             shop_title: 'Princess Credit',
-            shop_desc: 'ร้านรับเติมเครดิต ราคาถูก ปลอดภัย 100%',
-            hours: 'เปิดบริการทุกวัน 10:00 - 22:00 น.',
-            response: 'ตอบกลับเร็ว ภายใน 5 นาที',
-            line_url: 'https://line.me/ti/p/~princesscredit',
-            fb_url: 'https://facebook.com/princesscredit',
+            shop_desc: '',
+            hours: '',
+            response: '',
+            line_url: '',
+            fb_url: '',
             logo_url: '',
-            cover_url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200'
+            cover_url: ''
         };
 
         let playlist = [];
@@ -526,7 +526,7 @@
         let reviewsData = [];
         let currentRating = 5;
 
-        // Fetch data from Supabase tables on load
+        // Fetch data strictly from Supabase tables
         async function loadAppData() {
             try {
                 // 1. Fetch Shop Settings
@@ -547,7 +547,7 @@
                             title: s.title,
                             desc: s.description || '',
                             icon: s.icon || 'fa-comments',
-                            media: mediaList && mediaList.length > 0 ? mediaList.map(m => ({ type: m.media_type, url: m.media_url })) : [{ type: 'image', url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800' }]
+                            media: mediaList && mediaList.length > 0 ? mediaList.map(m => ({ type: m.media_type, url: m.media_url })) : []
                         });
                     }
                 } else {
@@ -576,14 +576,12 @@
                 if (musicList && musicList.length > 0) {
                     playlist = musicList.map(m => ({ id: m.id, title: m.title, url: m.audio_url }));
                 } else {
-                    playlist = [
-                        { id: 1, title: 'Princess Royal Waltz', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' }
-                    ];
+                    playlist = [];
                 }
 
             } catch (err) {
                 console.error("Error loading app data from Supabase:", err);
-                showNotification('เกิดข้อผิดพลาดในการโหลดข้อมูล', 'แจ้งเตือน');
+                showNotification('เกิดข้อผิดพลาดในการโหลดข้อมูลจากฐานข้อมูล', 'แจ้งเตือน');
             }
         }
 
@@ -613,10 +611,24 @@
             }
 
             const lineLink = document.getElementById('display-line-link');
-            if (lineLink && shopConfig.line_url) lineLink.href = shopConfig.line_url;
+            if (lineLink) {
+                if (shopConfig.line_url) {
+                    lineLink.href = shopConfig.line_url;
+                    lineLink.style.display = 'flex';
+                } else {
+                    lineLink.style.display = 'none';
+                }
+            }
 
             const fbLink = document.getElementById('display-fb-link');
-            if (fbLink && shopConfig.fb_url) fbLink.href = shopConfig.fb_url;
+            if (fbLink) {
+                if (shopConfig.fb_url) {
+                    fbLink.href = shopConfig.fb_url;
+                    fbLink.style.display = 'flex';
+                } else {
+                    fbLink.style.display = 'none';
+                }
+            }
 
             if (shopConfig.cover_url) {
                 document.getElementById('display-cover').style.backgroundImage = `url('${shopConfig.cover_url}')`;
@@ -714,7 +726,7 @@
         function toggleMusicPlayback() {
             const player = document.getElementById('bgm-player');
             if (playlist.length === 0) {
-                showNotification('ยังไม่มีเพลงในระบบแบ็คกราวด์', 'แจ้งเตือน');
+                showNotification('ยังไม่มีเพลงในฐานข้อมูล กรุณาเพิ่มเพลงในระบบแอดมิน', 'แจ้งเตือน');
                 return;
             }
 
@@ -803,7 +815,7 @@
 
                 if (error) throw error;
 
-                showNotification('ส่งรีวิวเรียบร้อยแล้ว ขอบคุณครับ/ค่ะ', 'สำเร็จ');
+                showNotification('ส่งรีวิวเข้าสู่ระบบเรียบร้อยแล้ว ขอบคุณครับ/ค่ะ', 'สำเร็จ');
                 document.getElementById('review-form').reset();
                 setRating(5);
                 await loadAppData();
@@ -820,7 +832,7 @@
             container.innerHTML = '';
 
             if (reviewsData.length === 0) {
-                container.innerHTML = '<div class="bg-white p-6 rounded-3xl text-center text-xs text-gray-400 border border-[#FFE0E6]">ยังไม่มีรีวิวจากลูกค้าในขณะนี้</div>';
+                container.innerHTML = '<div class="bg-white p-6 rounded-3xl text-center text-xs text-gray-400 border border-[#FFE0E6]">ยังไม่มีรีวิวจากลูกค้าในฐานข้อมูล</div>';
                 document.getElementById('display-avg-rating').textContent = '5.0';
                 document.getElementById('display-rating-count').textContent = '(0 รีวิว)';
                 document.getElementById('display-reviews-count').textContent = '0';
@@ -886,7 +898,7 @@
             container.innerHTML = '';
 
             if (storiesData.length === 0) {
-                container.innerHTML = '<div class="text-xs text-gray-400 py-4 w-full text-center">ไม่มีสตอรี่ไฮไลท์</div>';
+                container.innerHTML = '<div class="text-xs text-gray-400 py-4 w-full text-center">ไม่มีสตอรี่ไฮไลท์ในฐานข้อมูล (เพิ่มผ่านระบบแอดมิน)</div>';
                 return;
             }
 
@@ -937,6 +949,12 @@
 
             const progressBarsContainer = document.getElementById('story-progress-bars');
             progressBarsContainer.innerHTML = '';
+            
+            if (!story.media || story.media.length === 0) {
+                document.getElementById('story-media-container').innerHTML = '<div class="text-white text-xs p-4 text-center">ไม่มีไฟล์สื่อในสตอรี่นี้</div>';
+                return;
+            }
+
             story.media.forEach((m, idx) => {
                 const bar = document.createElement('div');
                 bar.className = 'h-1 flex-1 bg-white/35 rounded-full overflow-hidden';
@@ -975,6 +993,10 @@
 
         function nextStoryMedia() {
             const story = storiesData[currentStoryIndex];
+            if (!story.media || story.media.length === 0) {
+                closeStory();
+                return;
+            }
             if (currentMediaIndex < story.media.length - 1) {
                 currentMediaIndex++;
                 loadStoryMedia();
@@ -1041,7 +1063,7 @@
 
                 if (adminRpcErr || !isAdmin) {
                     await supabaseClient.auth.signOut();
-                    showNotification('บัญชีนี้ไม่มีสิทธิ์แอดมินระบบ', 'แจ้งเตือน');
+                    showNotification('บัญชีนี้ไม่มีสิทธิ์แอดมินระบบในฐานข้อมูล', 'แจ้งเตือน');
                     loginBtn.disabled = false;
                     return;
                 }
@@ -1095,7 +1117,6 @@
             shopConfig.cover_url = document.getElementById('admin-cover-url').value;
 
             try {
-                // Check if shop row exists
                 const { data: existingShop } = await supabaseClient.from('shops').select('id').maybeSingle();
                 
                 if (existingShop) {
@@ -1105,7 +1126,7 @@
                 }
 
                 applyShopConfigToUI();
-                showNotification('บันทึกข้อมูลร้านค้าเรียบร้อยแล้ว', 'สำเร็จ');
+                showNotification('บันทึกข้อมูลร้านค้าลง Supabase เรียบร้อยแล้ว', 'สำเร็จ');
             } catch (err) {
                 console.error("Error saving shop config:", err);
                 showNotification('เกิดข้อผิดพลาดในการบันทึกข้อมูลร้าน', 'แจ้งเตือน');
@@ -1123,7 +1144,7 @@
             
             const { data: storiesList } = await supabaseClient.from('stories').select('*').order('sort_order', { ascending: true });
             if (!storiesList || storiesList.length === 0) {
-                list.innerHTML = '<div class="text-xs text-gray-400 text-center py-4">ไม่มีสตอรี่ไฮไลท์</div>';
+                list.innerHTML = '<div class="text-xs text-gray-400 text-center py-4">ไม่มีสตอรี่ไฮไลท์ในฐานข้อมูล</div>';
                 return;
             }
 
@@ -1178,7 +1199,6 @@
 
             const { data: st } = await supabaseClient.from('stories').select('*').eq('id', id).single();
             if (st) {
-                document.getElementById('story-input-title').textContent = st.title;
                 document.getElementById('story-input-title').value = st.title;
                 document.getElementById('story-input-desc').value = st.description || '';
                 document.getElementById('story-input-icon').value = st.icon || 'fa-comments';
@@ -1212,7 +1232,6 @@
             });
         }
 
-        // Add media URL or file
         document.getElementById('story-media-files').addEventListener('change', function(e) {
             const files = e.target.files;
             for (let i = 0; i < files.length; i++) {
@@ -1225,7 +1244,6 @@
             }
         });
 
-        // Also permit adding media from URL input if entered
         document.getElementById('story-media-url-input').addEventListener('change', function(e) {
             const urlVal = e.target.value.trim();
             if (urlVal) {
@@ -1272,7 +1290,7 @@
                 closeStoryEditorModal();
                 await loadAppData();
                 renderAdminStoriesList();
-                showNotification('บันทึกสตอรี่เรียบร้อยแล้ว', 'สำเร็จ');
+                showNotification('บันทึกสตอรี่ลง Supabase เรียบร้อยแล้ว', 'สำเร็จ');
             } catch (err) {
                 console.error("Error saving story:", err);
                 showNotification('เกิดข้อผิดพลาดในการบันทึกสตอรี่', 'แจ้งเตือน');
@@ -1363,7 +1381,7 @@
             
             const { data: musicList } = await supabaseClient.from('background_music').select('*');
             if (!musicList || musicList.length === 0) {
-                list.innerHTML = '<div class="text-xs text-gray-400 text-center py-4">ไม่มีเพลงในระบบ</div>';
+                list.innerHTML = '<div class="text-xs text-gray-400 text-center py-4">ไม่มีเพลงในฐานข้อมูล</div>';
                 return;
             }
 
@@ -1458,7 +1476,7 @@
                 await loadAppData();
                 renderAdminMusicList();
                 closeMusicEditorModal();
-                showNotification('เพิ่มเพลงเรียบร้อยแล้ว', 'สำเร็จ');
+                showNotification('เพิ่มเพลงลง Supabase เรียบร้อยแล้ว', 'สำเร็จ');
             } catch (err) {
                 console.error("Error saving music:", err);
                 showNotification('เกิดข้อผิดพลาดในการบันทึกเพลง', 'แจ้งเตือน');
