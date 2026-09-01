@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Princess Credit - ร้านรับเติมเครดิต</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #FFECEE; /* Updated to match FFECEE from image */
+            color: #4A4A4A;
+        }
+        /* Custom Palette from Attached Image */
+        .bg-custom-light { background-color: #FFECEE; }
+        .bg-custom-mid { background-color: #FFE0E6; }
+        .bg-custom-dark { background-color: #FFD4DE; }
+        
+        .bg-pippin { background-color: #FFE0E6; }
+        .bg-lavender-blush { background-color: #FFECEE; }
+        .bg-chardon { background-color: #FFECEE; }
+        .bg-chablis { background-color: #FFECEE; }
+        .bg-rose-white { background-color: #FFECEE; }
+        
+        .text-rose-gold { color: #C57D84; }
+        .border-rose-gold { border-color: #FFD4DE; }
+        .bg-rose-gold { background-color: #FFD4DE; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFECEE;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFD4DE;
+            border-radius: 3px;
+        }
+
+        /* Door opening animation */
+        #gate-container {
+            transition: opacity 1s ease-in-out;
+        }
+        .gate-open-left {
+            transform: perspective(1200px) rotateY(-110deg);
+            transform-origin: left;
+            transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .gate-open-right {
+            transform: perspective(1200px) rotateY(110deg);
+            transform-origin: right;
+            transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        /* Crown click animation */
+        @keyframes crownPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.25); filter: drop-shadow(0 0 10px rgba(255, 212, 222, 0.8)); }
+            100% { transform: scale(1.1); }
+        }
+        .crown-pulsing {
+            animation: crownPulse 0.8s ease-in-out forwards;
+        }
+
+        /* Click Star Effect Animation */
+        @keyframes floatStar {
+            0% {
+                transform: translate(0, 0) scale(0.4) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1.6) rotate(220deg);
+                opacity: 0;
+            }
+        }
+        .click-star {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            color: #FFD4DE;
+            font-size: 14px;
+            animation: floatStar 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            filter: drop-shadow(0 0 8px rgba(255, 212, 222, 0.9));
+        }
+
+        /* Vinyl Spin Animation */
+        @keyframes vinylSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-vinyl {
+            animation: vinylSpin 4s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-[#FFECEE] min-h-screen relative overflow-x-hidden" onclick="createClickSparkles(event)">
+
+    <!-- Gate Container -->
+    <div id="gate-container" class="fixed inset-0 z-50 flex items-center justify-center bg-[#FFECEE] overflow-hidden cursor-pointer" onclick="openGate()">
+        <div class="absolute inset-0 bg-cover bg-center opacity-10 pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1920');"></div>
+        
+        <div class="relative w-full h-full flex shadow-2xl bg-[#FFECEE]">
+            <!-- Left Gate -->
+            <div id="left-gate" class="w-1/2 h-full bg-gradient-to-r from-[#FFE0E6] via-[#FFECEE] to-[#FFECEE] border-r border-[#FFD4DE] flex flex-col justify-center items-end relative shadow-inner origin-left">
+                <div class="absolute top-8 bottom-8 right-3 w-[90%] border-2 border-[#FFD4DE] rounded-[36px] bg-white/20 backdrop-blur-[0.5px] pointer-events-none shadow-sm"></div>
+            </div>
+
+            <!-- Right Gate -->
+            <div id="right-gate" class="w-1/2 h-full bg-gradient-to-l from-[#FFE0E6] via-[#FFECEE] to-[#FFECEE] border-l border-[#FFD4DE] flex flex-col justify-center items-start relative shadow-inner origin-right">
+                <div class="absolute top-8 bottom-8 left-3 w-[90%] border-2 border-[#FFD4DE] rounded-[36px] bg-white/20 backdrop-blur-[0.5px] pointer-events-none shadow-sm"></div>
+            </div>
+
+            <!-- Center Interactive Crown & Welcome Mechanism -->
+            <div id="gate-content" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 text-center select-none pointer-events-auto">
+                <div class="flex flex-col items-center group cursor-pointer" title="คลิกเพื่อเปิดประตู">
+                    <div class="mb-3">
+                        <h2 style="font-family: 'Great Vibes', cursive;" class="text-4xl md:text-5xl text-[#865B5F] tracking-wide drop-shadow-sm font-normal">natthakrita.tukta</h2>
+                        <p class="text-[10px] tracking-[0.2em] text-[#A87B7F] uppercase mt-1">hihi welcome to tukta shop</p>
+                    </div>
+                    <div id="crown-icon-wrapper" class="w-16 h-16 rounded-full bg-white/95 border-2 border-[#FFD4DE] shadow-md flex items-center justify-center text-[#C57D84] text-2xl transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg">
+                        <i id="crown-symbol" class="fa-solid fa-crown drop-shadow-sm text-[#C57D84]"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content" class="opacity-0 transition-opacity duration-1000 pointer-events-none">
+        
+        <!-- Navbar -->
+        <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-[#FFE0E6] shadow-sm">
+            <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <a href="#main-content-hero" onclick="event.preventDefault(); scrollToSection('main-content-hero');" id="nav-brand-title" class="text-[#C57D84] text-xl font-bold tracking-wider flex items-center gap-1 cursor-pointer">
+                        <i class="fa-solid fa-crown text-amber-400"></i> Princess Credit
+                    </a>
+                </div>
+                <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-600">
+                    <a href="#main-content-hero" onclick="event.preventDefault(); scrollToSection('main-content-hero');" class="hover:text-[#C57D84] transition cursor-pointer">หน้าแรก</a>
+                    <a href="#highlight-section" onclick="event.preventDefault(); scrollToSection('highlight-section');" class="hover:text-[#C57D84] transition cursor-pointer">highlight</a>
+                    <a href="#write-review-section" onclick="event.preventDefault(); scrollToSection('write-review-section');" class="hover:text-[#C57D84] transition cursor-pointer">เขียนรีวิว</a>
+                    <a href="#reviews-section" onclick="event.preventDefault(); scrollToSection('reviews-section');" class="hover:text-[#C57D84] transition cursor-pointer">รีวิวจากลูกค้า</a>
+                </nav>
+                <div class="flex items-center space-x-3">
+                    <!-- Music Widget Button (Icon only) -->
+                    <div id="music-widget-btn" onclick="toggleMusicPlayback()" class="cursor-pointer bg-[#FFE0E6] hover:bg-[#FFD4DE] border border-[#FFD4DE] p-2 rounded-full flex items-center justify-center shadow-sm transition" title="เปิด/ปิดเพลงประกอบ">
+                        <div id="music-icon-wrap" class="w-6 h-6 rounded-full bg-[#C57D84] text-white flex items-center justify-center text-xs">
+                            <i id="music-action-icon" class="fa-solid fa-music"></i>
+                        </div>
+                    </div>
+
+                    <button onclick="openAdminModal()" id="auth-btn-label" class="bg-gradient-to-r from-[#FFE0E6] to-[#FFD4DE] text-[#865B5F] border border-[#FFD4DE] px-4 py-2 rounded-full text-sm font-semibold shadow-sm hover:opacity-90 transition flex items-center gap-2">
+                        <i class="fa-solid fa-gears text-[#C57D84]"></i> ระบบแอดมิน
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hidden Audio Element for BGM -->
+        <audio id="bgm-player" loop preload="auto"></audio>
+
+        <!-- Hero Cover Section -->
+        <section id="main-content-hero" class="max-w-5xl mx-auto px-4 pt-6">
+            <div class="relative rounded-3xl overflow-hidden shadow-xl bg-[#FFE0E6] border-4 border-white">
+                <!-- Cover Image -->
+                <div id="display-cover" class="h-56 md:h-72 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200');">
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#FFE0E6]/30 to-[#FFE0E6]"></div>
+                </div>
+
+                <!-- Profile Info Section -->
+                <div class="px-6 pb-6 pt-2 bg-gradient-to-t from-[#FFE0E6] via-[#FFE0E6] to-transparent relative flex flex-col md:flex-row items-center md:items-end justify-between -mt-16 md:-mt-20 gap-4">
+                    <div class="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+                        <div class="w-32 h-32 rounded-full p-1.5 bg-white shadow-xl relative group">
+                            <div id="display-logo-container" class="w-full h-full rounded-full bg-gradient-to-br from-[#FFE0E6] to-[#FFD4DE] flex items-center justify-center overflow-hidden border-2 border-[#C57D84] bg-cover bg-center">
+                                <i id="display-logo-icon" class="fa-solid fa-crown text-white text-5xl drop-shadow-md"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 md:mt-0">
+                            <h1 id="shop-title-text" class="text-2xl font-bold text-gray-800 flex items-center justify-center md:justify-start gap-2">
+                                Princess Credit
+                            </h1>
+                            <p id="shop-desc-text" class="text-sm text-gray-600 mt-1 font-light">ร้านรับเติมเครดิต ราคาถูก ปลอดภัย 100%</p>
+                            <div class="flex flex-col items-center md:items-start gap-1.5 mt-2 text-xs text-gray-500">
+                                <div id="display-hours-text" class="flex items-center gap-1.5">
+                                    <i class="fa-regular fa-clock text-[#C57D84]"></i> เปิดบริการทุกวัน 10:00 - 22:00 น.
+                                </div>
+                                <div id="display-response-text" class="flex items-center gap-1.5">
+                                    <i class="fa-solid fa-bolt text-[#C57D84]"></i> ตอบกลับเร็ว ภายใน 5 นาที
+                                </div>
+                                <div id="display-social-text" class="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-1.5 font-medium text-[#C57D84]">
+                                    <a id="display-line-link" href="https://line.me/ti/p/~princesscredit" target="_blank" class="hover:opacity-80 transition flex items-center justify-center w-9 h-9 bg-white/80 rounded-full border border-[#FFE0E6] shadow-sm text-green-500 text-base" title="Line">
+                                        <i class="fa-brands fa-line"></i>
+                                    </a>
+                                    <a id="display-fb-link" href="https://facebook.com/princesscredit" target="_blank" class="hover:opacity-80 transition flex items-center justify-center w-9 h-9 bg-white/80 rounded-full border border-[#FFE0E6] shadow-sm text-blue-600 text-base" title="Facebook">
+                                        <i class="fa-brands fa-facebook"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats & Reviews Count Card -->
+                    <div class="flex items-center gap-4 w-full md:w-auto justify-center">
+                        <div class="text-center px-4 py-2 bg-white/80 backdrop-blur rounded-2xl shadow-sm border border-[#FFE0E6]">
+                            <div class="flex items-center justify-center text-amber-400 gap-1 text-base font-bold">
+                                <i class="fa-solid fa-star"></i> <span id="display-avg-rating">5.0</span>
+                            </div>
+                            <span id="display-rating-count" class="text-[11px] text-gray-500">(0 รีวิว)</span>
+                        </div>
+                        <div class="bg-white px-5 py-3 rounded-2xl shadow-md border border-[#FFE0E6] text-center">
+                            <span class="text-[10px] font-semibold text-[#C57D84] uppercase tracking-wider block mb-0.5">
+                                <i class="fa-solid fa-crown text-[#C57D84]"></i> ยอดรวมรีวิว
+                            </span>
+                            <span id="display-reviews-count" class="text-xl font-bold text-[#C57D84]">0</span>
+                            <span class="text-[10px] text-gray-400 block">REVIEWS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Highlight Section -->
+        <section id="highlight-section" class="max-w-5xl mx-auto px-4 pt-12">
+            <div class="text-center mb-4">
+                <h3 class="text-lg font-bold text-[#C57D84] tracking-widest inline-flex items-center gap-2">
+                    <span class="h-px w-8 bg-[#FFD4DE]"></span>
+                    highlight
+                    <span class="h-px w-8 bg-[#FFD4DE]"></span>
+                </h3>
+            </div>
+            <div id="stories-container" class="flex items-center gap-4 overflow-x-auto pb-4 pt-1 px-2 scrollbar-none justify-start md:justify-center">
+                <!-- Populated dynamically -->
+            </div>
+        </section>
+
+        <!-- Write Review Section -->
+        <section id="write-review-section" class="max-w-5xl mx-auto px-4 pt-12">
+            <div class="bg-white rounded-3xl p-6 shadow-lg border border-[#FFE0E6]">
+                <h3 class="text-lg font-bold text-[#C57D84] text-center mb-6">เขียนรีวิว</h3>
+                <form id="review-form" onsubmit="submitReview(event)" class="space-y-4">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 bg-[#FFECEE] p-4 rounded-2xl border border-[#FFE0E6]">
+                        <span class="text-sm font-medium text-gray-700">ให้คะแนนบริการ</span>
+                        <div class="flex items-center gap-2 text-2xl text-amber-400 cursor-pointer" id="star-rating">
+                            <i class="fa-solid fa-star hover:scale-110 transition" data-rating="1" onclick="setRating(1)"></i>
+                            <i class="fa-solid fa-star hover:scale-110 transition" data-rating="2" onclick="setRating(2)"></i>
+                            <i class="fa-solid fa-star hover:scale-110 transition" data-rating="3" onclick="setRating(3)"></i>
+                            <i class="fa-solid fa-star hover:scale-110 transition" data-rating="4" onclick="setRating(4)"></i>
+                            <i class="fa-solid fa-star hover:scale-110 transition" data-rating="5" onclick="setRating(5)"></i>
+                            <span id="rating-text" class="text-xs font-bold text-gray-500 ml-2">5/5</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <input type="text" id="reviewer-name" placeholder="ชื่อแอคลูกค้าที่มาทำการซื้อขาย หรือ นามแฝง" required class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                    </div>
+
+                    <div>
+                        <textarea id="review-comment" required rows="3" placeholder="เขียนรีวิว…" class="w-full p-4 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm"></textarea>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+                        <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-gray-700">
+                            <input type="checkbox" id="review-verified-check" required class="w-4 h-4 accent-[#C57D84] rounded">
+                            <span>ยืนยันว่ารีวิวนี้คือรีวิวจริง 100%</span>
+                        </label>
+                        <button type="submit" class="w-full sm:w-auto bg-gradient-to-r from-[#FFD4DE] to-[#C57D84] text-white px-8 py-3 rounded-2xl text-sm font-semibold shadow-md hover:opacity-90 transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-crown"></i> ส่งรีวิว
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Customer Reviews Section -->
+        <section id="reviews-section" class="max-w-5xl mx-auto px-4 pt-12 pb-16">
+            <div class="text-center mb-6">
+                <h3 class="text-lg font-bold text-[#C57D84] tracking-widest inline-flex items-center gap-2">
+                    <span class="h-px w-8 bg-[#FFD4DE]"></span>
+                    รีวิวจากลูกค้า
+                    <span class="h-px w-8 bg-[#FFD4DE]"></span>
+                </h3>
+            </div>
+
+            <div id="reviews-container" class="space-y-4">
+                <!-- Populated dynamically -->
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Story Viewer Modal -->
+    <div id="story-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-black rounded-3xl max-w-md w-full overflow-hidden shadow-2xl relative flex flex-col h-[80vh]">
+            <div id="story-progress-bars" class="absolute top-3 left-3 right-3 z-20 flex gap-1.5"></div>
+            
+            <button onclick="closeStory()" class="absolute top-6 right-4 z-30 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex-1 relative flex items-center justify-center bg-black overflow-hidden" id="story-media-container">
+                <div class="absolute inset-y-0 left-0 w-1/3 z-10 cursor-pointer" onclick="prevStoryMedia()"></div>
+                <div class="absolute inset-y-0 right-0 w-1/3 z-10 cursor-pointer" onclick="nextStoryMedia()"></div>
+            </div>
+
+            <div class="p-4 bg-gradient-to-t from-black via-black/80 to-transparent text-white z-20">
+                <h3 id="story-modal-title" class="font-bold text-base mb-1"></h3>
+                <p id="story-modal-desc" class="text-xs text-gray-300"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div id="admin-modal" class="fixed inset-0 z-50 bg-[#FFECEE]/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[#FFECEE] rounded-3xl max-w-3xl w-full p-6 shadow-2xl relative border-2 border-[#FFE0E6] max-h-[90vh] overflow-y-auto">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#FFE0E6] text-[#C57D84] flex items-center justify-center hover:bg-[#FFD4DE] transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-gradient-to-r from-[#FFD4DE] to-[#C57D84] text-white rounded-full flex items-center justify-center mx-auto mb-2 text-xl shadow-md">
+                    <i class="fa-solid fa-gears"></i>
+                </div>
+                <h3 class="text-lg font-bold text-[#865B5F]">ระบบหลังบ้านแอดมิน (Admin Full Control)</h3>
+                <p class="text-xs text-[#A87B7F]">จัดการข้อมูลเว็บไซต์ สตอรี่ รีวิว และเพลงประกอบ</p>
+            </div>
+            
+            <!-- Admin Login Screen -->
+            <div id="admin-login-box" class="space-y-4 max-w-sm mx-auto py-6 bg-white p-6 rounded-3xl shadow-sm border border-[#FFE0E6]">
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">อีเมลแอดมิน</label>
+                    <input type="email" id="admin-email" placeholder="กรอกอีเมล (เช่น admin@princess.com)" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">รหัสผ่านแอดมิน</label>
+                    <input type="password" id="admin-pass" placeholder="กรอกรหัสผ่าน (เช่น admin123)" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                </div>
+                <button onclick="verifyAdmin()" class="w-full bg-gradient-to-r from-[#FFD4DE] to-[#C57D84] text-white py-3 rounded-2xl font-semibold text-sm shadow hover:opacity-90 transition">
+                    เข้าสู่ระบบแอดมิน
+                </button>
+            </div>
+
+            <!-- Admin Full Dashboard -->
+            <div id="admin-dashboard" class="space-y-6 hidden bg-white p-6 rounded-3xl shadow-sm border border-[#FFE0E6]">
+                <div class="p-3 bg-[#FFECEE] rounded-2xl border border-[#FFE0E6] text-xs text-gray-700 flex justify-between items-center">
+                    <span>สถานะ: <b class="text-[#C57D84]">แอดมินเข้าสู่ระบบสำเร็จ (Full Control)</b></span>
+                    <button onclick="logoutAdmin()" class="text-red-400 font-semibold hover:underline">ออกจากระบบ</button>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex border-b border-[#FFE0E6] text-sm font-semibold overflow-x-auto">
+                    <button onclick="switchAdminTab('shop')" id="tab-shop" class="pb-2 px-4 border-b-2 border-[#C57D84] text-[#C57D84] whitespace-nowrap">ข้อมูลร้าน</button>
+                    <button onclick="switchAdminTab('stories')" id="tab-stories" class="pb-2 px-4 border-b-2 border-transparent text-gray-500 hover:text-[#C57D84] whitespace-nowrap">จัดการสตอรี่</button>
+                    <button onclick="switchAdminTab('reviews')" id="tab-reviews" class="pb-2 px-4 border-b-2 border-transparent text-gray-500 hover:text-[#C57D84] whitespace-nowrap">จัดการรีวิว</button>
+                    <button onclick="switchAdminTab('music')" id="tab-music" class="pb-2 px-4 border-b-2 border-transparent text-gray-500 hover:text-[#C57D84] whitespace-nowrap">จัดการเพลงแบ็คกราวด์</button>
+                </div>
+
+                <!-- Tab 1: Shop Info -->
+                <div id="admin-panel-shop" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">ชื่อแบรนด์ / ชื่อร้าน (Brand Title)</label>
+                        <input type="text" id="admin-brand-title" value="Princess Credit" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">ชื่อร้านย่อย (Shop Title)</label>
+                        <input type="text" id="admin-shop-title" value="Princess Credit" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">คำโปรยร้าน (Description)</label>
+                        <input type="text" id="admin-shop-desc" value="ร้านรับเติมเครดิต ราคาถูก ปลอดภัย 100%" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">เวลาทำการ (Operating Hours)</label>
+                        <input type="text" id="admin-shop-hours" value="เปิดบริการทุกวัน 10:00 - 22:00 น." class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">ความเร็วในการตอบกลับ (Response Time)</label>
+                        <input type="text" id="admin-shop-response" value="ตอบกลับเร็ว ภายใน 5 นาที" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">ลิงก์ Line Official</label>
+                        <input type="text" id="admin-shop-line-url" value="https://line.me/ti/p/~princesscredit" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">ลิงก์ Facebook Page</label>
+                        <input type="text" id="admin-shop-fb-url" value="https://facebook.com/princesscredit" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">เปลี่ยนรูปโลโก้ร้าน</label>
+                        <input type="file" id="admin-logo-file" accept="image/*" class="w-full p-2.5 rounded-2xl border border-[#FFD4DE] text-xs bg-[#FFECEE]">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">เปลี่ยนรูปภาพปก</label>
+                        <input type="file" id="admin-cover-file" accept="image/*" class="w-full p-2.5 rounded-2xl border border-[#FFD4DE] text-xs bg-[#FFECEE]">
+                    </div>
+                    <button onclick="saveAdminShop()" class="w-full bg-gradient-to-r from-[#FFD4DE] to-[#C57D84] text-white py-3 rounded-2xl font-semibold text-sm shadow hover:opacity-90 transition">
+                        บันทึกข้อมูลร้านค้า
+                    </button>
+                </div>
+
+                <!-- Tab 2: Stories Management -->
+                <div id="admin-panel-stories" class="space-y-4 hidden">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-bold text-sm text-gray-700">รายการสตอรี่ไฮไลท์</h4>
+                        <button onclick="openStoryEditorModal()" class="bg-gradient-to-r from-[#FFD4DE] to-[#C57D84] text-white text-xs px-3.5 py-2 rounded-xl font-semibold shadow hover:opacity-95">+ เพิ่มสตอรี่ไฮไลท์</button>
+                    </div>
+                    <div id="admin-stories-list" class="space-y-3 max-h-72 overflow-y-auto">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Tab 3: Reviews Management -->
+                <div id="admin-panel-reviews" class="space-y-4 hidden">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-bold text-sm text-gray-700">จัดการรีวิวลูกค้า</h4>
+                    </div>
+                    <div id="admin-reviews-list" class="space-y-3 max-h-72 overflow-y-auto">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Tab 4: Music Management -->
+                <div id="admin-panel-music" class="space-y-4 hidden">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-bold text-sm text-gray-700">รายการเพลงแบ็คกราวด์ (เพิ่ม/ลบ/แก้ไข/ทดสอบเล่น)</h4>
+                        <button onclick="openMusicEditorModal()" class="bg-gradient-to-r from-[#FFD4DE] to-[#C57D84] text-white text-xs px-3.5 py-2 rounded-xl font-semibold shadow hover:opacity-95">+ เพิ่มเพลงใหม่</button>
+                    </div>
+                    <div id="admin-music-list" class="space-y-3 max-h-72 overflow-y-auto">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Story Editor Modal -->
+    <div id="story-editor-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[#FFECEE] rounded-3xl max-w-lg w-full p-6 shadow-2xl relative border-2 border-[#FFE0E6] max-h-[90vh] overflow-y-auto">
+            <button onclick="closeStoryEditorModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#FFE0E6] text-[#C57D84] flex items-center justify-center hover:bg-[#FFD4DE] transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 id="story-editor-title" class="text-base font-bold text-[#865B5F] mb-4">เพิ่ม/แก้ไข สตอรี่ไฮไลท์</h3>
+            
+            <input type="hidden" id="edit-story-id" value="">
+            
+            <div class="space-y-4 bg-white p-5 rounded-3xl border border-[#FFE0E6]">
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">ชื่อหัวข้อสตอรี่</label>
+                    <input type="text" id="story-input-title" placeholder="เช่น รีวิวจากลูกค้าจริง" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">คำอธิบายสตอรี่</label>
+                    <textarea id="story-input-desc" rows="2" placeholder="รายละเอียดเพิ่มเติม..." class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">ไอคอน (FontAwesome icon class เช่น fa-comments, fa-crown)</label>
+                    <input type="text" id="story-input-icon" value="fa-comments" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">เพิ่มไฟล์สื่อเนื้อหา (รูปภาพหรือวิดีโอ)</label>
+                    <input type="file" id="story-media-files" accept="image/*,video/*" multiple class="w-full p-2.5 rounded-2xl border border-[#FFD4DE] text-xs bg-[#FFECEE]">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-2">สื่อเนื้อหาปัจจุบันในสตอรี่นี้</label>
+                    <div id="story-media-preview-list" class="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto p-2 bg-[#FFECEE] rounded-2xl border border-[#FFE0E6]">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <button onclick="saveStoryItem()" class="w-full bg-gradient-to-r from-[#FFD4DE] to-[#C57D84] text-white py-3 rounded-2xl font-semibold text-sm shadow hover:opacity-90 transition">
+                    บันทึกสตอรี่ไฮไลท์
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Music Editor Modal -->
+    <div id="music-editor-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[#FFECEE] rounded-3xl max-w-md w-full p-6 shadow-2xl relative border-2 border-[#FFE0E6]">
+            <button onclick="closeMusicEditorModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#FFE0E6] text-[#C57D84] flex items-center justify-center hover:bg-[#FFD4DE] transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 id="music-editor-title" class="text-base font-bold text-[#865B5F] mb-4">เพิ่ม/แก้ไข เพลงแบ็คกราวด์</h3>
+            
+            <input type="hidden" id="edit-music-id" value="">
+            
+            <div class="space-y-4 bg-white p-5 rounded-3xl border border-[#FFE0E6]">
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">ชื่อเพลง</label>
+                    <input type="text" id="music-input-title" placeholder="เช่น เจ้าหญิงวอลทซ์ (Princess Waltz)" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">ลิงก์ไฟล์เสียง (Direct Audio URL หรืออัปโหลดไฟล์)</label>
+                    <input type="text" id="music-input-url" placeholder="เช่น https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" class="w-full p-3 rounded-2xl border border-[#FFD4DE] focus:outline-none focus:ring-2 focus:ring-[#C57D84] bg-[#FFECEE] text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">หรืออัปโหลดไฟล์เพลง (.mp3 / .wav)</label>
+                    <input type="file" id="music-audio-file" accept="audio/*" class="w-full p-2.5 rounded-2xl border border-[#FFD4DE] text-xs bg-[#FFECEE]">
+                </div>
+
+                <button onclick="saveMusicItem()" class="w-full bg-gradient-to-r from-[#FFD4DE] to-[#C57D84] text-white py-3 rounded-2xl font-semibold text-sm shadow hover:opacity-90 transition">
+                    บันทึกเพลง
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Box -->
+    <div id="custom-msg-box" class="fixed bottom-6 right-6 z-50 bg-white/95 backdrop-blur-md px-6 py-4 rounded-2xl shadow-xl border-2 border-[#FFE0E6] hidden transition-all duration-300 transform translate-y-10 opacity-0 flex items-center gap-3">
+        <div id="msg-icon" class="text-pink-500 text-xl"><i class="fa-solid fa-crown"></i></div>
+        <div>
+            <h4 id="msg-title" class="font-bold text-gray-800 text-sm">แจ้งเตือน</h4>
+            <p id="msg-text" class="text-xs text-gray-600">ข้อความแจ้งเตือนระบบ</p>
+        </div>
+    </div>
+
+    <script>
+        let shopConfig = {
+            brandTitle: 'Princess Credit',
+            shopTitle: 'Princess Credit',
+            shopDesc: 'ร้านรับเติมเครดิต ราคาถูก ปลอดภัย 100%',
+            hours: 'เปิดบริการทุกวัน 10:00 - 22:00 น.',
+            response: 'ตอบกลับเร็ว ภายใน 5 นาที',
+            lineUrl: 'https://line.me/ti/p/~princesscredit',
+            fbUrl: 'https://facebook.com/princesscredit',
+            logoUrl: '',
+            coverUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200'
+        };
+
+        let playlist = [
+            { id: 1, title: 'Princess Royal Waltz', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+            { id: 2, title: 'Magical Dream Piano', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' }
+        ];
+        let currentTrackIndex = 0;
+        let isPlayingMusic = false;
+
+        let storiesData = [
+            {
+                id: 1,
+                title: 'รีวิวจริง 100%',
+                desc: 'เครดิตเข้าไว ปลอดภัยแน่นอนค่ะ',
+                icon: 'fa-shield-heart',
+                media: [
+                    { type: 'image', url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800' },
+                    { type: 'image', url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800' }
+                ]
+            },
+            {
+                id: 2,
+                title: 'โปรโมชั่นสุดคุ้ม',
+                desc: 'เติมเยอะแถมเยอะ สอบถามได้ตลอด',
+                icon: 'fa-gift',
+                media: [
+                    { type: 'image', url: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800' }
+                ]
+            },
+            {
+                id: 3,
+                title: 'ลูกค้าประจำ',
+                desc: 'ขอบคุณที่ไว้วางใจ Princess Credit ค่ะ',
+                icon: 'fa-crown',
+                media: [
+                    { type: 'image', url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800' }
+                ]
+            }
+        ];
+
+        let reviewsData = [
+            { id: 1, name: 'คุณพลอย (IG: ploy_pp)', rating: 5, comment: 'เติมไวมากค่ะ แอดมินตอบเร็วทันใจ ปลอดภัย 100% เลยค่ะร้านนี้', verified: true, date: '1 กันยายน 2569 เวลา 14:15 น.' },
+            { id: 2, name: 'คุณนัท (FB: Nutchapon M.)', rating: 5, comment: 'บริการดีสุดๆ ราคาเป็นกันเอง เติมบ่อยมากครับแนะนำเลย', verified: true, date: '30 สิงหาคม 2569 เวลา 19:40 น.' }
+        ];
+
+        let currentRating = 5;
+
+        function openGate() {
+            const crownWrap = document.getElementById('crown-icon-wrapper');
+            const crownSym = document.getElementById('crown-symbol');
+            crownWrap.classList.add('crown-pulsing');
+            crownSym.classList.add('fa-spin');
+
+            setTimeout(() => {
+                const leftGate = document.getElementById('left-gate');
+                const rightGate = document.getElementById('right-gate');
+                const gateContent = document.getElementById('gate-content');
+                const gateContainer = document.getElementById('gate-container');
+                const mainContent = document.getElementById('main-content');
+
+                gateContent.style.opacity = '0';
+                leftGate.classList.add('gate-open-left');
+                rightGate.classList.add('gate-open-right');
+
+                setTimeout(() => {
+                    gateContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        gateContainer.style.display = 'none';
+                        mainContent.classList.remove('opacity-0');
+                        mainContent.classList.remove('pointer-events-none');
+                        
+                        // Start Background Music if available
+                        if (playlist.length > 0) {
+                            playCurrentTrack();
+                        }
+                    }, 800);
+                }, 1000);
+            }, 500);
+        }
+
+        function createClickSparkles(e) {
+            if (e.target.closest('#gate-container') || e.target.closest('button') || e.target.closest('input') || e.target.closest('textarea') || e.target.closest('a')) return;
+            
+            const numParticles = 4;
+            for (let i = 0; i < numParticles; i++) {
+                const star = document.createElement('div');
+                star.className = 'click-star';
+                star.innerHTML = '<i class="fa-solid fa-star"></i>';
+                
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 30 + Math.random() * 50;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                star.style.setProperty('--tx', `${tx}px`);
+                star.style.setProperty('--ty', `${ty}px`);
+                star.style.left = `${e.clientX}px`;
+                star.style.top = `${e.clientY}px`;
+                
+                document.body.appendChild(star);
+                setTimeout(() => star.remove(), 900);
+            }
+        }
+
+        function playCurrentTrack() {
+            const player = document.getElementById('bgm-player');
+            if (playlist.length === 0) return;
+            if (currentTrackIndex >= playlist.length) currentTrackIndex = 0;
+            
+            player.src = playlist[currentTrackIndex].url;
+            player.play().then(() => {
+                isPlayingMusic = true;
+                updateMusicWidgetUI();
+            }).catch(err => {
+                console.log("Autoplay prevented or audio load error:", err);
+                isPlayingMusic = false;
+                updateMusicWidgetUI();
+            });
+        }
+
+        function toggleMusicPlayback() {
+            const player = document.getElementById('bgm-player');
+            if (playlist.length === 0) {
+                showNotification('ยังไม่มีเพลงในระบบแบ็คกราวด์', 'แจ้งเตือน');
+                return;
+            }
+
+            if (isPlayingMusic) {
+                player.pause();
+                isPlayingMusic = false;
+            } else {
+                if (!player.src || player.src === '' || player.src === window.location.href) {
+                    playCurrentTrack();
+                } else {
+                    player.play().then(() => {
+                        isPlayingMusic = true;
+                    }).catch(e => {
+                        playCurrentTrack();
+                    });
+                }
+                isPlayingMusic = true;
+            }
+            updateMusicWidgetUI();
+        }
+
+        function updateMusicWidgetUI() {
+            const iconWrap = document.getElementById('music-icon-wrap');
+            const actionIcon = document.getElementById('music-action-icon');
+            
+            if (isPlayingMusic) {
+                iconWrap.classList.add('animate-vinyl');
+                actionIcon.className = 'fa-solid fa-compact-disc';
+            } else {
+                iconWrap.classList.remove('animate-vinyl');
+                actionIcon.className = 'fa-solid fa-music';
+            }
+        }
+
+        function scrollToSection(sectionId) {
+            const el = document.getElementById(sectionId);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function setRating(r) {
+            currentRating = r;
+            document.getElementById('rating-text').innerText = `${r}/5`;
+            const stars = document.querySelectorAll('#star-rating i');
+            stars.forEach((star, index) => {
+                if (index < r) {
+                    star.className = 'fa-solid fa-star hover:scale-110 transition text-amber-400';
+                } else {
+                    star.className = 'fa-solid fa-star hover:scale-110 transition text-gray-300';
+                }
+            });
+        }
+
+        function submitReview(event) {
+            event.preventDefault();
+            const name = document.getElementById('reviewer-name').value;
+            const comment = document.getElementById('review-comment').value;
+            const verified = document.getElementById('review-verified-check').checked;
+
+            const now = new Date();
+            const thaiMonths = [
+                'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+                'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+            ];
+            const day = now.getDate();
+            const month = thaiMonths[now.getMonth()];
+            const year = now.getFullYear() + 543;
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const realDateTimeStr = `${day} ${month} ${year} เวลา ${hours}:${minutes} น.`;
+
+            const newRev = {
+                id: Date.now(),
+                name: name,
+                rating: currentRating,
+                comment: comment,
+                verified: verified,
+                date: realDateTimeStr
+            };
+
+            reviewsData.unshift(newRev);
+            renderReviews();
+            document.getElementById('review-form').reset();
+            setRating(5);
+            showNotification('ส่งรีวิวเรียบร้อยแล้ว ขอบคุณครับ/ค่ะ', 'สำเร็จ');
+        }
+
+        function renderReviews() {
+            const container = document.getElementById('reviews-container');
+            container.innerHTML = '';
+
+            let totalRating = 0;
+            reviewsData.forEach(rev => {
+                totalRating += rev.rating;
+                const starsHtml = '<i class="fa-solid fa-star text-amber-400"></i>'.repeat(rev.rating);
+                
+                const card = document.createElement('div');
+                card.className = 'bg-white p-5 rounded-3xl shadow-sm border border-[#FFE0E6] flex flex-col gap-2 transition hover:shadow-md';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-sm text-gray-800">${rev.name}</span>
+                            ${rev.verified ? '<span class="bg-[#FFECEE] text-[#C57D84] text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> รีวิวจริง</span>' : ''}
+                        </div>
+                        <span class="text-xs text-gray-400">${rev.date}</span>
+                    </div>
+                    <div class="flex items-center gap-1 text-xs">
+                        ${starsHtml}
+                    </div>
+                    <p class="text-xs text-gray-600 mt-1 leading-relaxed">${rev.comment}</p>
+                `;
+                container.appendChild(card);
+            });
+
+            const avg = reviewsData.length > 0 ? (totalRating / reviewsData.length).toFixed(1) : '5.0';
+            document.getElementById('display-avg-rating').innerText = avg;
+            document.getElementById('display-rating-count').innerText = `(${reviewsData.length} รีวิว)`;
+            document.getElementById('display-reviews-count').innerText = reviewsData.length;
+        }
+
+        function renderStories() {
+            const container = document.getElementById('stories-container');
+            container.innerHTML = '';
+
+            storiesData.forEach((story, idx) => {
+                const item = document.createElement('div');
+                item.className = 'flex flex-col items-center gap-1.5 cursor-pointer group flex-shrink-0';
+                item.onclick = () => openStoryViewer(idx);
+                item.innerHTML = `
+                    <div class="w-16 h-16 rounded-full p-0.5 bg-gradient-to-tr from-[#FFD4DE] to-[#FFE0E6] shadow-md group-hover:scale-105 transition">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-[#C57D84] text-xl">
+                            <i class="fa-solid ${story.icon}"></i>
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-medium text-gray-700 max-w-[70px] truncate text-center">${story.title}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        let currentStoryIndex = 0;
+        let currentMediaIndex = 0;
+        let storyTimer = null;
+
+        function openStoryViewer(storyIdx) {
+            currentStoryIndex = storyIdx;
+            currentMediaIndex = 0;
+            document.getElementById('story-modal').classList.remove('hidden');
+            loadStoryMedia();
+        }
+
+        function closeStory() {
+            document.getElementById('story-modal').classList.add('hidden');
+            if (storyTimer) clearTimeout(storyTimer);
+        }
+
+        function loadStoryMedia() {
+            if (storyTimer) clearTimeout(storyTimer);
+            const story = storiesData[currentStoryIndex];
+            document.getElementById('story-modal-title').innerText = story.title;
+            document.getElementById('story-modal-desc').innerText = story.desc;
+
+            const progressBarsContainer = document.getElementById('story-progress-bars');
+            progressBarsContainer.innerHTML = '';
+            story.media.forEach((m, idx) => {
+                const bar = document.createElement('div');
+                bar.className = 'h-1 flex-1 bg-white/30 rounded-full overflow-hidden';
+                const fill = document.createElement('div');
+                fill.className = 'h-full bg-white transition-all duration-100';
+                if (idx < currentMediaIndex) fill.style.width = '100%';
+                else if (idx === currentMediaIndex) fill.style.width = '0%';
+                else fill.style.width = '0%';
+                bar.appendChild(fill);
+                progressBarsContainer.appendChild(bar);
+            });
+
+            const mediaContainer = document.getElementById('story-media-container');
+            const media = story.media[currentMediaIndex];
+            
+            // Keep click zones
+            mediaContainer.innerHTML = `
+                <div class="absolute inset-y-0 left-0 w-1/3 z-10 cursor-pointer" onclick="prevStoryMedia()"></div>
+                <div class="absolute inset-y-0 right-0 w-1/3 z-10 cursor-pointer" onclick="nextStoryMedia()"></div>
+                <img src="${media.url}" class="w-full h-full object-contain" onerror="this.src='https://placehold.co/600x800/FFECEE/C57D84?text=Princess+Story'">
+            `;
+
+            let startWidth = 0;
+            const duration = 4000;
+            const interval = 40;
+            const increment = (interval / duration) * 100;
+            const activeFill = progressBarsContainer.children[currentMediaIndex].children[0];
+
+            storyTimer = setInterval(() => {
+                startWidth += increment;
+                activeFill.style.width = `${startWidth}%`;
+                if (startWidth >= 100) {
+                    clearInterval(storyTimer);
+                    nextStoryMedia();
+                }
+            }, interval);
+        }
+
+        function nextStoryMedia() {
+            const story = storiesData[currentStoryIndex];
+            if (currentMediaIndex < story.media.length - 1) {
+                currentMediaIndex++;
+                loadStoryMedia();
+            } else {
+                if (currentStoryIndex < storiesData.length - 1) {
+                    currentStoryIndex++;
+                    currentMediaIndex = 0;
+                    loadStoryMedia();
+                } else {
+                    closeStory();
+                }
+            }
+        }
+
+        function prevStoryMedia() {
+            if (currentMediaIndex > 0) {
+                currentMediaIndex--;
+                loadStoryMedia();
+            } else {
+                if (currentStoryIndex > 0) {
+                    currentStoryIndex--;
+                    currentMediaIndex = storiesData[currentStoryIndex].media.length - 1;
+                    loadStoryMedia();
+                }
+            }
+        }
+
+        function openAdminModal() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+        }
+
+        function verifyAdmin() {
+            const email = document.getElementById('admin-email').value;
+            const pass = document.getElementById('admin-pass').value;
+
+            if (email === 'admin@princess.com' && pass === 'admin123') {
+                document.getElementById('admin-login-box').classList.add('hidden');
+                document.getElementById('admin-dashboard').classList.remove('hidden');
+                renderAdminStoriesList();
+                renderAdminReviewsList();
+                renderAdminMusicList();
+                showNotification('เข้าสู่ระบบแอดมินสำเร็จ', 'สำเร็จ');
+            } else {
+                showNotification('อีเมลหรือรหัสผ่านไม่ถูกต้อง (ตัวอย่าง: admin@princess.com / admin123)', 'แจ้งเตือน');
+            }
+        }
+
+        function logoutAdmin() {
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            document.getElementById('admin-login-box').classList.remove('hidden');
+            document.getElementById('admin-email').value = '';
+            document.getElementById('admin-pass').value = '';
+            showNotification('ออกจากระบบเรียบร้อย', 'แจ้งเตือน');
+        }
+
+        function switchAdminTab(tabName) {
+            ['shop', 'stories', 'reviews', 'music'].forEach(t => {
+                document.getElementById(`admin-panel-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).className = 'pb-2 px-4 border-b-2 border-transparent text-gray-500 hover:text-[#C57D84] whitespace-nowrap';
+            });
+            document.getElementById(`admin-panel-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).className = 'pb-2 px-4 border-b-2 border-[#C57D84] text-[#C57D84] whitespace-nowrap';
+        }
+
+        function saveAdminShop() {
+            shopConfig.brandTitle = document.getElementById('admin-brand-title').value;
+            shopConfig.shopTitle = document.getElementById('admin-shop-title').value;
+            shopConfig.shopDesc = document.getElementById('admin-shop-desc').value;
+            shopConfig.hours = document.getElementById('admin-shop-hours').value;
+            shopConfig.response = document.getElementById('admin-shop-response').value;
+            shopConfig.lineUrl = document.getElementById('admin-shop-line-url').value;
+            shopConfig.fbUrl = document.getElementById('admin-shop-fb-url').value;
+
+            document.getElementById('nav-brand-title').innerHTML = `<i class="fa-solid fa-crown text-amber-400"></i> ${shopConfig.brandTitle}`;
+            document.getElementById('shop-title-text').innerText = shopConfig.shopTitle;
+            document.getElementById('shop-desc-text').innerText = shopConfig.shopDesc;
+            document.getElementById('display-hours-text').innerHTML = `<i class="fa-regular fa-clock text-[#C57D84]"></i> ${shopConfig.hours}`;
+            document.getElementById('display-response-text').innerHTML = `<i class="fa-solid fa-bolt text-[#C57D84]"></i> ${shopConfig.response}`;
+            
+            document.getElementById('display-line-link').href = shopConfig.lineUrl;
+            document.getElementById('display-fb-link').href = shopConfig.fbUrl;
+
+            // Handle Logo file upload
+            const logoFile = document.getElementById('admin-logo-file').files[0];
+            if (logoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const container = document.getElementById('display-logo-container');
+                    container.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+                };
+                reader.readAsDataURL(logoFile);
+            }
+
+            // Handle Cover file upload
+            const coverFile = document.getElementById('admin-cover-file').files[0];
+            if (coverFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('display-cover').style.backgroundImage = `url('${e.target.result}')`;
+                };
+                reader.readAsDataURL(coverFile);
+            }
+
+            showNotification('บันทึกข้อมูลร้านค้าเรียบร้อยแล้ว', 'สำเร็จ');
+        }
+
+        // Stories Admin Management
+        let currentEditingStory = null;
+        let tempStoryMedia = [];
+
+        function renderAdminStoriesList() {
+            const list = document.getElementById('admin-stories-list');
+            list.innerHTML = '';
+            storiesData.forEach((st, idx) => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-3 bg-[#FFECEE] rounded-2xl border border-[#FFE0E6]';
+                row.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-[#FFD4DE] text-white flex items-center justify-center text-sm"><i class="fa-solid ${st.icon}"></i></div>
+                        <div>
+                            <h5 class="font-bold text-xs text-gray-800">${st.title}</h5>
+                            <p class="text-[11px] text-gray-500">${st.media.length} ไฟล์สื่อ</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="editStory(${st.id})" class="text-xs bg-white border border-[#FFD4DE] text-[#C57D84] px-3 py-1.5 rounded-xl font-medium hover:bg-[#FFE0E6]">แก้ไข</button>
+                        <button onclick="deleteStory(${st.id})" class="text-xs bg-white border border-red-200 text-red-500 px-3 py-1.5 rounded-xl font-medium hover:bg-red-50">ลบ</button>
+                    </div>
+                `;
+                list.appendChild(row);
+            });
+        }
+
+        function openStoryEditorModal() {
+            currentEditingStory = null;
+            tempStoryMedia = [];
+            document.getElementById('story-editor-title').innerText = 'เพิ่มสตอรี่ไฮไลท์ใหม่';
+            document.getElementById('edit-story-id').value = '';
+            document.getElementById('story-input-title').value = '';
+            document.getElementById('story-input-desc').value = '';
+            document.getElementById('story-input-icon').value = 'fa-comments';
+            renderStoryMediaPreview();
+            document.getElementById('story-editor-modal').classList.remove('hidden');
+        }
+
+        function closeStoryEditorModal() {
+            document.getElementById('story-editor-modal').classList.add('hidden');
+        }
+
+        function editStory(id) {
+            const st = storiesData.find(s => s.id === id);
+            if (!st) return;
+            currentEditingStory = st;
+            tempStoryMedia = [...st.media];
+            document.getElementById('story-editor-title').innerText = 'แก้ไขสตอรี่ไฮไลท์';
+            document.getElementById('edit-story-id').value = st.id;
+            document.getElementById('story-input-title').value = st.title;
+            document.getElementById('story-input-desc').value = st.desc;
+            document.getElementById('story-input-icon').value = st.icon;
+            renderStoryMediaPreview();
+            document.getElementById('story-editor-modal').classList.remove('hidden');
+        }
+
+        function renderStoryMediaPreview() {
+            const container = document.getElementById('story-media-preview-list');
+            container.innerHTML = '';
+            tempStoryMedia.forEach((m, idx) => {
+                const box = document.createElement('div');
+                box.className = 'relative rounded-xl overflow-hidden h-20 bg-gray-100 border border-[#FFE0E6] flex items-center justify-center';
+                box.innerHTML = `
+                    <img src="${m.url}" class="w-full h-full object-cover">
+                    <button type="button" onclick="removeTempStoryMedia(${idx})" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]"><i class="fa-solid fa-xmark"></i></button>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function removeTempStoryMedia(idx) {
+            tempStoryMedia.splice(idx, 1);
+            renderStoryMediaPreview();
+        }
+
+        // Handle file uploads in story editor
+        document.getElementById('story-media-files').addEventListener('change', function(e) {
+            const files = e.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    tempStoryMedia.push({ type: 'image', url: evt.target.result });
+                    renderStoryMediaPreview();
+                };
+                reader.readAsDataURL(files[i]);
+            }
+        });
+
+        function saveStoryItem() {
+            const title = document.getElementById('story-input-title').value;
+            const desc = document.getElementById('story-input-desc').value;
+            const icon = document.getElementById('story-input-icon').value;
+            const idVal = document.getElementById('edit-story-id').value;
+
+            if (!title) {
+                showNotification('กรุณากรอกชื่อหัวข้อสตอรี่', 'แจ้งเตือน');
+                return;
+            }
+
+            if (idVal) {
+                const st = storiesData.find(s => s.id == idVal);
+                if (st) {
+                    st.title = title;
+                    st.desc = desc;
+                    st.icon = icon;
+                    st.media = [...tempStoryMedia];
+                }
+            } else {
+                const newSt = {
+                    id: Date.now(),
+                    title: title,
+                    desc: desc,
+                    icon: icon,
+                    media: tempStoryMedia.length > 0 ? [...tempStoryMedia] : [{ type: 'image', url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800' }]
+                };
+                storiesData.push(newSt);
+            }
+
+            renderStories();
+            renderAdminStoriesList();
+            closeStoryEditorModal();
+            showNotification('บันทึกสตอรี่เรียบร้อยแล้ว', 'สำเร็จ');
+        }
+
+        function deleteStory(id) {
+            storiesData = storiesData.filter(s => s.id !== id);
+            renderStories();
+            renderAdminStoriesList();
+            showNotification('ลบสตอรี่เรียบร้อยแล้ว', 'แจ้งเตือน');
+        }
+
+        // Reviews Admin Management
+        function renderAdminReviewsList() {
+            const list = document.getElementById('admin-reviews-list');
+            list.innerHTML = '';
+            reviewsData.forEach(rev => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-3 bg-[#FFECEE] rounded-2xl border border-[#FFE0E6]';
+                row.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h5 class="font-bold text-xs text-gray-800">${rev.name}</h5>
+                            <span class="text-amber-400 text-xs">${'★'.repeat(rev.rating)}</span>
+                        </div>
+                        <p class="text-[11px] text-gray-600 truncate max-w-xs">${rev.comment}</p>
+                        <span class="text-[9px] text-gray-400">${rev.date}</span>
+                    </div>
+                    <button onclick="deleteReview(${rev.id})" class="text-xs bg-white border border-red-200 text-red-500 px-3 py-1.5 rounded-xl font-medium hover:bg-red-50">ลบรีวิว</button>
+                `;
+                list.appendChild(row);
+            });
+        }
+
+        function deleteReview(id) {
+            reviewsData = reviewsData.filter(r => r.id !== id);
+            renderReviews();
+            renderAdminReviewsList();
+            showNotification('ลบรีวิวเรียบร้อยแล้ว', 'แจ้งเตือน');
+        }
+
+        // Music Admin Management
+        function renderAdminMusicList() {
+            const list = document.getElementById('admin-music-list');
+            list.innerHTML = '';
+            playlist.forEach((track, idx) => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-3 bg-[#FFECEE] rounded-2xl border border-[#FFE0E6]';
+                row.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-[#FFD4DE] text-white flex items-center justify-center text-xs"><i class="fa-solid fa-music"></i></div>
+                        <div>
+                            <h5 class="font-bold text-xs text-gray-800">${track.title}</h5>
+                            <p class="text-[10px] text-gray-400 truncate max-w-xs">${track.url}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="testPlayTrack(${idx})" class="text-xs bg-white border border-[#FFD4DE] text-[#C57D84] px-3 py-1.5 rounded-xl font-medium hover:bg-[#FFE0E6]">ทดสอบเล่น</button>
+                        <button onclick="deleteTrack(${track.id})" class="text-xs bg-white border border-red-200 text-red-500 px-3 py-1.5 rounded-xl font-medium hover:bg-red-50">ลบ</button>
+                    </div>
+                `;
+                list.appendChild(row);
+            });
+        }
+
+        function openMusicEditorModal() {
+            document.getElementById('music-editor-title').innerText = 'เพิ่มเพลงแบ็คกราวด์ใหม่';
+            document.getElementById('edit-music-id').value = '';
+            document.getElementById('music-input-title').value = '';
+            document.getElementById('music-input-url').value = '';
+            document.getElementById('music-editor-modal').classList.remove('hidden');
+        }
+
+        function closeMusicEditorModal() {
+            document.getElementById('music-editor-modal').classList.add('hidden');
+        }
+
+        // Handle audio file upload
+        document.getElementById('music-audio-file').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    document.getElementById('music-input-url').value = evt.target.result;
+                    if (!document.getElementById('music-input-title').value) {
+                        document.getElementById('music-input-title').value = file.name;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function saveMusicItem() {
+            const title = document.getElementById('music-input-title').value;
+            const url = document.getElementById('music-input-url').value;
+
+            if (!title || !url) {
+                showNotification('กรุณากรอกชื่อเพลงและลิงก์ไฟล์เสียง', 'แจ้งเตือน');
+                return;
+            }
+
+            playlist.push({
+                id: Date.now(),
+                title: title,
+                url: url
+            });
+
+            renderAdminMusicList();
+            closeMusicEditorModal();
+            showNotification('เพิ่มเพลงเรียบร้อยแล้ว', 'สำเร็จ');
+        }
+
+        function testPlayTrack(idx) {
+            currentTrackIndex = idx;
+            playCurrentTrack();
+            showNotification(`กำลังทดสอบเล่นเพลง: ${playlist[idx].title}`, 'สำเร็จ');
+        }
+
+        function deleteTrack(id) {
+            playlist = playlist.filter(t => t.id !== id);
+            renderAdminMusicList();
+            showNotification('ลบเพลงเรียบร้อยแล้ว', 'แจ้งเตือน');
+        }
+
+        function showNotification(text, title = 'แจ้งเตือน') {
+            const box = document.getElementById('custom-msg-box');
+            document.getElementById('msg-title').innerText = title;
+            document.getElementById('msg-text').innerText = text;
+            box.classList.remove('hidden');
+            setTimeout(() => {
+                box.classList.remove('translate-y-10', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                box.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => box.classList.add('hidden'), 300);
+            }, 3000);
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            renderStories();
+            renderReviews();
+        };
+    </script>
+</body>
+</html>
